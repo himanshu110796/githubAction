@@ -27,6 +27,11 @@ jobs:
           name: spring-boot-jar
           path: target/*.jar
 
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       # Collect commit author info
       - name: Get Commit Info
         id: commit_info
