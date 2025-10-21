@@ -2,11 +2,11 @@ name: Build Spring Boot JAR
 
 on:
   push:
-    branches: [ Main ]
+    branches: [ main ]
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Uses Linux runner, which is fine even if you develop on Windows
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
@@ -18,8 +18,11 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Build with Maven (clean, compile, package)
-        run: mvn clean compile package
+      - name: Build JAR
+        run: mvn clean package
 
-      - name: List generated JAR
-        run: ls -l target/*.jar
+      - name: Upload JAR as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: spring-boot-jar
+          path: target/*.jar
