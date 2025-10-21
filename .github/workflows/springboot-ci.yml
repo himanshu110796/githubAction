@@ -26,3 +26,31 @@ jobs:
         with:
           name: spring-boot-jar
           path: target/*.jar
+
+      # Collect commit author info
+      - name: Get Commit Info
+        id: commit_info
+        run: |
+          echo "AUTHOR_NAME=$(git log -1 --pretty=format:'%an')" >> $GITHUB_ENV
+          echo "AUTHOR_EMAIL=$(git log -1 --pretty=format:'%ae')" >> $GITHUB_ENV
+          echo "COMMIT_MSG=$(git log -1 --pretty=format:'%s')" >> $GITHUB_ENV
+
+      # Send email only if build fails
+      - name: Send Failure Email
+        if: failure()   # runs only when any step fails
+        uses: dawidd6/action-send-mail@v4
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ${{ secrets.SMTP_USER }}
+          password: ${{ secrets.SMTP_PASS }}
+          subject: "❌ FAILURE: GitHub Build - ${{ github.repository }}"
+          to: ${{ env.AUTHOR_EMAIL }}
+          from: "GitHub Actions <${{ secrets.SMTP_USER }}>"
+          content_type: text/html
+          body: |
+            <h3 style="color:red;">Build Failed ❌</h3>
+            <p><b>Repository:</b> ${{ github.repository }}</p>
+            <p><b>Commit:</b> ${{ env.COMMIT_MSG }}</p>
+            <p><b>Author:</b> ${{ env.AUTHOR_NAME }}</p>
+            <p><a href="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}">🔍 View Logs</a></p>
