@@ -1,0 +1,12 @@
+name: Test Workflow Trigger
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  test-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print message
+        run: echo "✅ GitHub Action triggered successfully!"
