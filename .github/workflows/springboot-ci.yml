@@ -2,7 +2,7 @@ name: Test Workflow Trigger
 
 on:
   push:
-    branches: [ main ]
+    branches: [ Main ]
 
 jobs:
   test-run:
