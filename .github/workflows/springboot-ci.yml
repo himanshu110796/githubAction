@@ -45,7 +45,7 @@ jobs:
           echo "Email: $AUTHOR_EMAIL"
           echo "Message: $COMMIT_MSG"
 
-      # Send email only if build fails
+      # Send email only if build failed
       - name: Send Failure Email
         if: success()   # runs only when any step fails
         uses: dawidd6/action-send-mail@v4
