@@ -47,7 +47,7 @@ jobs:
 
       # Send email only if build failed
       - name: Send Failure Email
-        if: success()   # runs only when any step fails
+        if: success()   # runs only when any step failed
         uses: dawidd6/action-send-mail@v4
         with:
           server_address: smtp.gmail.com
