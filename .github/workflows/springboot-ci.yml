@@ -32,7 +32,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      # Collect commit author info
+      # Collect commit author - info
       - name: Get Commit Info
         id: commit_info
         run: |
